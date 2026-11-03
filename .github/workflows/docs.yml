@@ -1,0 +1,27 @@
+name: API ドキュメントチェック
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  docs-check:
+    name: ドキュメント更新差分チェック
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@v4
+
+      - name: mise のセットアップ
+        uses: jdx/mise-action@v2
+
+      - name: API ドキュメント生成および差分チェック
+        run: mise run docs:check
