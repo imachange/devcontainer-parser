@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# MISE description="gomarkdoc による API ドキュメント (docs/api/*.md) 自動生成"
+set -euo pipefail
+
+gomarkdoc --output 'docs/api/{{if eq .Dir "."}}parser{{else}}{{.Dir}}{{end}}.md' ./...

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# MISE description="govulncheck による既知の脆弱性チェック"
+set -euo pipefail
+
+govulncheck ./...
