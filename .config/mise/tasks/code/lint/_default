@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# MISE description="すべての Lint (Go, GitHub Actions) の一括実行"
+# MISE depends=["code:lint:go", "code:lint:actionlint"]
+set -euo pipefail
