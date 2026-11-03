@@ -1,0 +1,23 @@
+pre-commit:
+  parallel: true
+  commands:
+    gofumpt:
+      glob: "*.go"
+      run: gofumpt -w {staged_files} && git add {staged_files}
+    golangci-lint:
+      glob: "*.go"
+      run: golangci-lint run -c .config/golangci.yml
+    typos:
+      run: typos --config .config/typos.toml
+    actionlint:
+      glob: ".github/workflows/*.yml"
+      run: actionlint
+
+# まだ、ソースコードがないので何もしない。
+# pre-push:
+#   parallel: false
+#   commands:
+#     test:
+#       run: go test -v -race ./...
+#     govulncheck:
+#       run: govulncheck ./...

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# MISE description="gofumpt による Go コードの自動整形"
+set -euo pipefail
+
+gofumpt -w .

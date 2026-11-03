@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# MISE description="golangci-lint による静的解析"
+set -euo pipefail
+
+golangci-lint run -c .config/golangci.yml

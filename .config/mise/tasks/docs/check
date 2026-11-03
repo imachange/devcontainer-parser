@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# MISE description="API ドキュメントの生成結果とコミット差分の検証（CI用）"
+set -euo pipefail
+
+mise run docs:gen
+git diff --exit-code docs/api/

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# MISE description="競合検出 (-race) を含む全単体テストの実行"
+set -euo pipefail
+
+go test -v -race ./...

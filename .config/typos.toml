@@ -1,0 +1,12 @@
+[files]
+extend-exclude = [
+  "docs/api/*.md",
+  "go.mod",
+  "go.sum"
+]
+
+[default]
+extend-identifiers = {}
+
+[default.extend-words]
+# 特定の識別子や誤検知を防ぐ用語の例外設定

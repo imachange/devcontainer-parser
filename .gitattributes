@@ -1,0 +1,12 @@
+* text=auto eol=lf
+
+*.go text eol=lf diff=golang
+
+*.sh text eol=lf
+
+*.md text eol=lf
+
+docs/api/*.md linguist-generated=true
+
+*.png binary
+*.jpg binary
