@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: コード品質およびテストパイプライン
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@v4
+
+      - name: mise のセットアップ
+        uses: jdx/mise-action@v2
+
+      - name: Pre-commit フックの実行 (Lint・整列・タイポチェック)
+        run: lefthook run pre-commit --all-files
+
+      - name: Pre-push フックの実行 (単体テスト・脆弱性チェック)
+        run: lefthook run pre-push

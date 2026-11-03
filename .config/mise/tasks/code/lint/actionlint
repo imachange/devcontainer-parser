@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# MISE description="actionlint による GitHub Actions ワークフローの構文チェック"
+set -euo pipefail
+
+actionlint
