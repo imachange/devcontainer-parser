@@ -1,9 +1,9 @@
 package spec
 
-// BuildSpec は、build (Docker のビルドに関するオプション) です。
+// BuildSpec は、build (Docker のビルドに関するオプション) 。
 //
 // 仕様では、dockerfile は必須で (build.dockerfile 形式)、旧形式では、トップレベルの dockerFile を使い、
-// build には target、args、cacheFrom、options だけを置きます。
+// build には target、args、cacheFrom、options だけを配置。
 type BuildSpec struct {
 	// Dockerfile の場所。devcontainer.json のあるフォルダからの相対パス。
 	Dockerfile string `json:"dockerfile,omitempty"`

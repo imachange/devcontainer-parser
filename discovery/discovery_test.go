@@ -90,14 +90,28 @@ func TestFindDirectoryNamedDevcontainerJSON(t *testing.T) {
 }
 
 func TestFindNotFound(t *testing.T) {
-	for name, setup := range map[string]func(root string){
-		"空のディレクトリ":           func(root string) {},
-		".devcontainer が空":   func(root string) { os.MkdirAll(filepath.Join(root, ".devcontainer"), 0o755) },
-		".devcontainer がファイル": func(root string) { os.WriteFile(filepath.Join(root, ".devcontainer"), []byte("x"), 0o644) },
-	} {
-		t.Run(name, func(t *testing.T) {
+	tests := []struct {
+		name  string
+		setup func(t *testing.T, root string)
+	}{
+		{"空のディレクトリ", func(t *testing.T, root string) {}},
+		{".devcontainer が空", func(t *testing.T, root string) {
+			t.Helper()
+			if err := os.MkdirAll(filepath.Join(root, ".devcontainer"), 0o755); err != nil {
+				t.Fatal(err)
+			}
+		}},
+		{".devcontainer がファイル", func(t *testing.T, root string) {
+			t.Helper()
+			if err := os.WriteFile(filepath.Join(root, ".devcontainer"), []byte("x"), 0o644); err != nil {
+				t.Fatal(err)
+			}
+		}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
 			root := t.TempDir()
-			setup(root)
+			tt.setup(t, root)
 			got, err := Find(root)
 			if !errors.Is(err, ErrNotFound) {
 				t.Fatalf("got %q, err=%v", got, err)

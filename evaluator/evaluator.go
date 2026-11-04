@@ -1,9 +1,9 @@
-// Package evaluator は、devcontainer.json の構成方式 (Dockerfile / イメージ / Docker Compose) を判定します。
+// Package evaluator は、devcontainer.json の構成方式 (Dockerfile / イメージ / Docker Compose) を判定。
 package evaluator
 
 import "github.com/imachange/devcontainer-parser/spec"
 
-// ConfigType は、コンテナの構成方式です。
+// ConfigType は、コンテナの構成方式。
 type ConfigType string
 
 const (
@@ -13,7 +13,7 @@ const (
 	TypeUnknown       ConfigType = "unknown"
 )
 
-// Evaluate は、次の優先順位で、構成方式を判定します。どれにも当てはまらなければ、TypeUnknown です。
+// Evaluate は、次の優先順位で、構成方式を判定。どれにも当てはまらなければ、TypeUnknown 。
 //
 //  1. dockerComposeFile (TypeDockerCompose)
 //  2. build、または旧形式の dockerFile (TypeBuild)

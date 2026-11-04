@@ -1,6 +1,6 @@
-// Package spec は、devcontainer.json のデータモデルと、記法の揺れを吸収する型を提供します。
+// Package spec は、devcontainer.json のデータモデルと、記法の揺れを吸収する型を提供する。
 //
-// モデルは、次のスキーマに対応します。
+// モデルは、次のスキーマに対応。
 //   - devcontainers/spec: schemas/devContainer.base.schema.json
 //   - microsoft/vscode: extensions/configuration-editing/schemas/devContainer.codespaces.schema.json
 //   - microsoft/vscode: extensions/configuration-editing/schemas/devContainer.vscode.schema.json
@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 )
 
-// DevContainerConfig は、devcontainer.json の、トップレベルのすべてのキー (TopLevelKeys) に対応します。
+// DevContainerConfig は、devcontainer.json の、トップレベルのすべてのキー (TopLevelKeys) に対応。
 type DevContainerConfig struct {
 	// ---- 共通 (devContainerCommon)
 
@@ -42,7 +42,7 @@ type DevContainerConfig struct {
 	WaitFor              string             `json:"waitFor,omitempty"`
 	UserEnvProbe         string             `json:"userEnvProbe,omitempty"`
 	HostRequirements     *HostRequirements  `json:"hostRequirements,omitempty"`
-	// Customizations は、ツール固有の設定です。ツールごとのキーの下は、生の JSON のまま保持します。
+	// Customizations は、ツール固有の設定です。ツールごとのキーの下は、生の JSON のまま保持する。
 	Customizations map[string]json.RawMessage `json:"customizations,omitempty"`
 
 	// ---- コンテナの起動方式が compose ではないときのキー (nonComposeBase。一部は compose と共通)
@@ -79,13 +79,13 @@ type DevContainerConfig struct {
 	Codespaces json.RawMessage `json:"codespaces,omitempty"`
 }
 
-// Secret は、secrets の値です。
+// Secret は、secrets の値。
 type Secret struct {
 	Description      string `json:"description,omitempty"`
 	DocumentationURL string `json:"documentationUrl,omitempty"`
 }
 
-// PortAttributes は、portsAttributes / otherPortsAttributes の値です。
+// PortAttributes は、portsAttributes / otherPortsAttributes の値。
 type PortAttributes struct {
 	OnAutoForward    string `json:"onAutoForward,omitempty"`
 	ElevateIfNeeded  *bool  `json:"elevateIfNeeded,omitempty"`
@@ -94,7 +94,7 @@ type PortAttributes struct {
 	Protocol         string `json:"protocol,omitempty"`
 }
 
-// HostRequirements は、hostRequirements です。
+// HostRequirements は、hostRequirements 。
 type HostRequirements struct {
 	CPUs    *int            `json:"cpus,omitempty"`
 	Memory  string          `json:"memory,omitempty"`
@@ -102,12 +102,12 @@ type HostRequirements struct {
 	GPU     *GPURequirement `json:"gpu,omitempty"`
 }
 
-// Decode は、トップレベルのキーと値から、DevContainerConfig を作ります。
+// Decode は、トップレベルのキーと値から、DevContainerConfig を作る。
 //
 // encoding/json は、キーの大文字小文字を区別せずに照合するので、そのまま読むと、仕様に無いキー
-// ("dockerfile" など) を、仕様のキー ("dockerFile") として読んでしまいます。
-// それを避けるため、仕様のキーと完全に一致するものだけを残してから、読みます。
-// (入れ子の中のキーは、encoding/json の照合のままです。)
+// ("dockerfile" など) を、仕様のキー ("dockerFile") として読んでしまう。
+// それを避けるため、仕様のキーと完全に一致するものだけを残してから、読む。
+// (入れ子の中のキーは、encoding/json の照合のまま。)
 func Decode(top map[string]json.RawMessage) (*DevContainerConfig, error) {
 	known := make(map[string]json.RawMessage, len(top))
 	for k, v := range top {

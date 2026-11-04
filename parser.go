@@ -1,11 +1,11 @@
-// Package parser は、devcontainer.json を解析します。
+// Package parser は、devcontainer.json を解析する。
 //
 // JSONC のサニタイズ、トップレベルキーの分類 (Used / Ignored / Unknown)、構成タイプの判定、
-// ファイルの自動探索、診断メッセージの生成を、まとめて行います。
+// ファイルの自動探索、診断メッセージの生成を、まとめて行う。
 //
 //	res, err := parser.LoadFromDir(".", parser.WithSupportedKeys("build", "initializeCommand"))
 //
-// 対応するスキーマは、spec パッケージのドキュメントを参照してください。
+// 対応するスキーマは、spec パッケージのドキュメントを参照する。
 package parser
 
 import (
@@ -23,24 +23,24 @@ import (
 	"github.com/imachange/devcontainer-parser/spec"
 )
 
-// Parse は、渡された JSONC のバイト列を、解析します (サニタイズ、フィルタリング、診断)。
+// Parse は、渡された JSONC のバイト列を、解析 (サニタイズ、フィルタリング、診断)。
 //
-// 読み取れないときは *ParseError を、WithStrict(true) で仕様外のキーがあるときは *ValidationError を返します。
+// 読み取れないときは *ParseError を、WithStrict(true) で仕様外のキーがあるときは *ValidationError を返す。
 func Parse(data []byte, opts ...Option) (*Result, error) {
 	return parse("", data, newOptions(opts))
 }
 
-// ReadFile は、指定されたパスの devcontainer.json を解析します。
-// ファイルが無いときは、*NotFoundError (errors.Is(err, os.ErrNotExist) も成り立つ) を返します。
+// ReadFile は、指定されたパスの devcontainer.json を解析する。
+// ファイルが無いときは、*NotFoundError (errors.Is(err, os.ErrNotExist) も成り立つ) を返す。
 func ReadFile(path string, opts ...Option) (*Result, error) {
 	return readFile(path, newOptions(opts))
 }
 
-// LoadFromDir は、ディレクトリから devcontainer.json を自動探索して、解析します。
+// LoadFromDir は、ディレクトリから devcontainer.json を自動探索して、解析する。
 //
 // 探す順序は、discovery.Candidates のとおりです。複数見つかったときは、最も優先順位の高いものを使い、
-// 他のものを知らせる INFO の診断を、Diagnostics に加えます。
-// 1 つも見つからないときは、*NotFoundError を返します。
+// 他のものを知らせる INFO の診断を、Diagnostics に加える。
+// 1 つも見つからないときは、*NotFoundError を返す。
 func LoadFromDir(dir string, opts ...Option) (*Result, error) {
 	candidates, err := discovery.Candidates(dir)
 	if err != nil {

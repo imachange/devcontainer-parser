@@ -16,11 +16,11 @@ func isNull(data []byte) bool {
 // ---------------------------------------------------------------------------
 // StringOrArray
 
-// StringOrArray は、"command" と ["cmd", "arg"] の双方を []string として正規化するカスタム型です。
-// 文字列は、1 要素の配列になります。null は、nil になります。
+// StringOrArray は、"command" と ["cmd", "arg"] の双方を []string として正規化するカスタム型。
+// 文字列は、1 要素の配列になる。null は、nil になる。
 type StringOrArray []string
 
-// UnmarshalJSON は、文字列または文字列の配列を読みます。
+// UnmarshalJSON は、文字列または文字列の配列を読む。
 func (s *StringOrArray) UnmarshalJSON(data []byte) error {
 	data = bytes.TrimSpace(data)
 	if len(data) == 0 || isNull(data) {
@@ -51,19 +51,20 @@ func (s *StringOrArray) UnmarshalJSON(data []byte) error {
 
 var hostPortRe = regexp.MustCompile(`^([a-z0-9-]+):(\d{1,5})$`)
 
-// PortMapping は、forwardPorts / appPort の 1 要素です。整数のポート番号、または文字列です。
+// PortMapping は、forwardPorts / appPort の 1 要素。整数のポート番号、または文字列。
 //
-// 文字列の場合は、原文を Spec に保持します。forwardPorts の "host:port" 形式 (^([a-z0-9-]+):(\d{1,5})$) に
-// 一致するときは、Host と Port も設定します。
+// 文字列の場合は、原文を Spec に保持する。
+// forwardPorts の "host:port" 形式 (^([a-z0-9-]+):(\d{1,5})$) に
+// 一致するときは、Host と Port も設定する。
 // appPort の "8000:8010" (ホストのポート:コンテナのポート) も、この形式に一致するので、Host="8000"、Port=8010 に
-// なります。appPort として扱うときは、Spec を、Docker のポート指定として解釈してください。
+// なります。appPort として扱うときは、Spec を、Docker のポート指定として解釈する。
 type PortMapping struct {
 	Port int    // 整数のポート番号、または "host:port" 形式のポート番号
 	Host string // "host:port" 形式のホスト部分
 	Spec string // 文字列形式の原文 (整数形式では空)
 }
 
-// UnmarshalJSON は、整数または文字列を読みます。
+// UnmarshalJSON は、整数または文字列を読む。
 func (p *PortMapping) UnmarshalJSON(data []byte) error {
 	data = bytes.TrimSpace(data)
 	if len(data) == 0 || isNull(data) {
@@ -95,7 +96,7 @@ func (p *PortMapping) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// MarshalJSON は、文字列形式だったものは文字列で、そうでなければ整数で出力します。
+// MarshalJSON は、文字列形式だったものは文字列で、そうでなければ整数で出力する。
 func (p PortMapping) MarshalJSON() ([]byte, error) {
 	if p.Spec != "" {
 		return json.Marshal(p.Spec)
@@ -103,10 +104,10 @@ func (p PortMapping) MarshalJSON() ([]byte, error) {
 	return json.Marshal(p.Port)
 }
 
-// PortList は、appPort のように、単一の値または配列を取る、ポートの一覧です。
+// PortList は、appPort のように、単一の値または配列を取る、ポートの一覧。
 type PortList []PortMapping
 
-// UnmarshalJSON は、単一の値を、1 要素の一覧として読みます。
+// UnmarshalJSON は、単一の値を、1 要素の一覧として読む。
 func (l *PortList) UnmarshalJSON(data []byte) error {
 	data = bytes.TrimSpace(data)
 	if len(data) == 0 || isNull(data) {
@@ -132,16 +133,16 @@ func (l *PortList) UnmarshalJSON(data []byte) error {
 // ---------------------------------------------------------------------------
 // Mount
 
-// Mount は、mounts の 1 要素です。オブジェクト形式、または Docker の --mount 形式の文字列です。
+// Mount は、mounts の 1 要素。オブジェクト形式、または Docker の --mount 形式の文字列。
 type Mount struct {
 	Type   string `json:"type,omitempty"`
 	Source string `json:"source,omitempty"`
 	Target string `json:"target,omitempty"`
-	// Raw は、文字列形式の原文です (オブジェクト形式では空)。
+	// Raw は、文字列形式の原文 (オブジェクト形式では空)。
 	Raw string `json:"-"`
 }
 
-// UnmarshalJSON は、文字列またはオブジェクトを読みます。
+// UnmarshalJSON は、文字列またはオブジェクトを読む。
 func (m *Mount) UnmarshalJSON(data []byte) error {
 	data = bytes.TrimSpace(data)
 	if len(data) == 0 || isNull(data) {
@@ -164,7 +165,7 @@ func (m *Mount) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// MarshalJSON は、文字列形式だったものは文字列で、そうでなければオブジェクトで出力します。
+// MarshalJSON は、文字列形式だったものは文字列で、そうでなければオブジェクトで出力。
 func (m Mount) MarshalJSON() ([]byte, error) {
 	if m.Raw != "" {
 		return json.Marshal(m.Raw)
@@ -176,7 +177,7 @@ func (m Mount) MarshalJSON() ([]byte, error) {
 // ---------------------------------------------------------------------------
 // GPURequirement
 
-// GPUMode は、hostRequirements.gpu の指定の種類です。
+// GPUMode は、hostRequirements.gpu の指定の種類。
 type GPUMode string
 
 const (
@@ -186,7 +187,7 @@ const (
 	GPUDetailed GPUMode = "detailed" // {"cores": ..., "memory": ...}
 )
 
-// GPURequirement は、hostRequirements.gpu です。真偽値、"optional"、またはオブジェクトです。
+// GPURequirement は、hostRequirements.gpu 。真偽値、"optional"、またはオブジェクト。
 type GPURequirement struct {
 	Mode   GPUMode
 	Cores  int    // GPUDetailed のときだけ
@@ -198,7 +199,7 @@ type gpuDetail struct {
 	Memory string `json:"memory,omitempty"`
 }
 
-// UnmarshalJSON は、true / false / "optional" / オブジェクトを読みます。
+// UnmarshalJSON は、true / false / "optional" / オブジェクトを読む。
 func (g *GPURequirement) UnmarshalJSON(data []byte) error {
 	data = bytes.TrimSpace(data)
 	if len(data) == 0 || isNull(data) {
@@ -230,7 +231,7 @@ func (g *GPURequirement) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// MarshalJSON は、読み込んだ形式のとおりに出力します。
+// MarshalJSON は、読み込んだ形式のとおりに出力する。
 func (g GPURequirement) MarshalJSON() ([]byte, error) {
 	switch g.Mode {
 	case GPURequired:
@@ -246,24 +247,24 @@ func (g GPURequirement) MarshalJSON() ([]byte, error) {
 // ---------------------------------------------------------------------------
 // LifecycleCommand
 
-// Command は、1 つのコマンドです。
-// 文字列形式は、シェルで実行します (Args は、コマンド行全体の 1 要素、Shell は true)。
-// 配列形式は、シェルを介さずに実行します (Args は、コマンドと引数、Shell は false)。
+// Command は、1 つのコマンド。
+// 文字列形式は、シェルで実行する (Args は、コマンド行全体の 1 要素、Shell は true)。
+// 配列形式は、シェルを介さずに実行する (Args は、コマンドと引数、Shell は false)。
 type Command struct {
 	Args  []string
 	Shell bool
 }
 
-// LifecycleCommand は、initializeCommand などのライフサイクルコマンドです。
-// 仕様では、文字列、文字列の配列、またはオブジェクト (名前 → 文字列/配列。並列に実行) のいずれかです。
+// LifecycleCommand は、initializeCommand などのライフサイクルコマンド。
+// 仕様では、文字列、文字列の配列、またはオブジェクト (名前 → 文字列/配列。並列に実行) のいずれか。
 type LifecycleCommand struct {
 	// Single は、文字列形式または配列形式のとき (オブジェクト形式では nil)。
 	Single *Command
-	// Parallel は、オブジェクト形式のとき。キーは、コマンドの名前です。
+	// Parallel は、オブジェクト形式のとき。キーは、コマンドの名前。
 	Parallel map[string]Command
 }
 
-// IsZero は、指定が無い (または空の) ときに true を返します。
+// IsZero は、指定が無い (または空の) ときに true を返す。
 func (c LifecycleCommand) IsZero() bool {
 	return c.Single == nil && len(c.Parallel) == 0
 }
@@ -300,7 +301,7 @@ func marshalCommand(c Command) ([]byte, error) {
 	return json.Marshal(c.Args)
 }
 
-// UnmarshalJSON は、文字列、配列、オブジェクトのいずれかを読みます。
+// UnmarshalJSON は、文字列、配列、オブジェクトのいずれかを読む。
 func (c *LifecycleCommand) UnmarshalJSON(data []byte) error {
 	data = bytes.TrimSpace(data)
 	if len(data) == 0 || isNull(data) {
@@ -331,7 +332,7 @@ func (c *LifecycleCommand) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// MarshalJSON は、読み込んだ形式のとおりに出力します。指定が無いときは null です。
+// MarshalJSON は、読み込んだ形式のとおりに出力する。指定が無いときは null 。
 func (c LifecycleCommand) MarshalJSON() ([]byte, error) {
 	switch {
 	case c.Single != nil:

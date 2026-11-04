@@ -1,4 +1,4 @@
-// Package discovery は、ディレクトリから devcontainer.json を、規定の優先順位で探します。
+// Package discovery は、ディレクトリから devcontainer.json を、規定の優先順位で探索する。
 package discovery
 
 import (
@@ -8,23 +8,23 @@ import (
 	"path/filepath"
 )
 
-// ErrNotFound は、devcontainer.json が見つからなかったことを表します。
+// ErrNotFound は、devcontainer.json が見つからなかったことを表す。
 var ErrNotFound = errors.New("devcontainer.json not found")
 
-// Patterns は、探す場所を、優先順位の順に並べたものです (エラーメッセージ用)。
+// Patterns は、探す場所を、優先順位の順に並べたもの (エラーメッセージ用)。
 var Patterns = []string{
 	".devcontainer/devcontainer.json",
 	".devcontainer/<DIR>/devcontainer.json",
 	".devcontainer.json",
 }
 
-// Candidates は、root の下に存在する devcontainer.json を、優先順位の順にすべて返します。
+// Candidates は、root の下に存在する devcontainer.json を、優先順位の順にすべて返す。
 //
 //  1. .devcontainer/devcontainer.json
 //  2. .devcontainer/<DIR>/devcontainer.json (<DIR> は 1 階層だけ。複数あれば、名前の辞書順)
 //  3. .devcontainer.json
 //
-// 見つからなければ、空の一覧を返します (エラーにはしません)。
+// 見つからなければ、空の一覧を返す (エラーにはしない)。
 func Candidates(root string) ([]string, error) {
 	var found []string
 
@@ -49,8 +49,8 @@ func Candidates(root string) ([]string, error) {
 	return found, nil
 }
 
-// Find は、最も優先順位の高い devcontainer.json のパスを返します。
-// 見つからなければ、ErrNotFound を (errors.Is で判定できる形で) 返します。
+// Find は、最も優先順位の高い devcontainer.json のパスを返す。
+// 見つからなければ、ErrNotFound を (errors.Is で判定できる形で) 返す。
 func Find(root string) (string, error) {
 	found, err := Candidates(root)
 	if err != nil {

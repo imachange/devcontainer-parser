@@ -2,7 +2,7 @@ package spec
 
 import "sort"
 
-// TopLevelKeys は、スキーマが定義する、devcontainer.json のトップレベルのキーの一覧です (辞書順)。
+// TopLevelKeys は、スキーマが定義する、devcontainer.json のトップレベルのキーの一覧 (辞書順)。
 //
 // 出典:
 //   - base: devContainerCommon、nonComposeBase、dockerfileContainer、imageContainer、composeContainer
@@ -10,8 +10,6 @@ import "sort"
 //   - codespaces: codespaces (非推奨。customizations.codespaces を使う)
 //   - vscode / codespaces: customizations (base と同じキー)
 //
-// base のスキーマには、"additionalProperties" というキーが、properties の中に、誤って書かれています。
-// これは、スキーマの記述の誤りと見なして、含めていません (含めると、このキーは、仕様外の扱いになります)。
 var TopLevelKeys = []string{
 	"$schema",
 	"appPort",
@@ -68,13 +66,13 @@ var knownKeys = func() map[string]struct{} {
 	return m
 }()
 
-// IsKnownKey は、スキーマが定義するトップレベルのキーかを返します (大文字小文字を区別します)。
+// IsKnownKey は、スキーマが定義するトップレベルのキーかを返す (大文字小文字を区別する)。
 func IsKnownKey(key string) bool {
 	_, ok := knownKeys[key]
 	return ok
 }
 
-// SortedKeys は、マップのキーを、辞書順で返します。
+// SortedKeys は、マップのキーを、辞書順で返す。
 func SortedKeys[V any](m map[string]V) []string {
 	keys := make([]string, 0, len(m))
 	for k := range m {

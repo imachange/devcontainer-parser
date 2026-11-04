@@ -1,15 +1,15 @@
-// Package jsonc は、JSONC (コメントと末尾カンマを許す JSON) を、標準の JSON に直します。
+// Package jsonc は、JSONC (コメントと末尾カンマを許す JSON) を、標準の JSON に直す。
 //
-// 出力は入力と同じ長さです。コメントと末尾カンマ、BOM は、空白に置き換えます (改行は残します)。
-// そのため、encoding/json が報告するバイト位置は、元のファイルの位置とそのまま対応します。
+// 出力は入力と同じ長さです。コメントと末尾カンマ、BOM は、空白に置き換える (改行は残す)。
+// そのため、encoding/json が報告するバイト位置は、元のファイルの位置とそのまま対応。
 //
-// なお、devcontainer.json のスキーマ (devContainer.base.schema.json) は、末尾カンマを許していません
-// (allowTrailingCommas が false) が、VS Code などは許容するので、この実装も許容します。
+// なお、devcontainer.json のスキーマ (devContainer.base.schema.json) は、末尾カンマを許容しない。
+// (allowTrailingCommas が false) が、VS Code などは許容するので、この実装も許容。
 package jsonc
 
 import "fmt"
 
-// SyntaxError は、JSONC として解釈できない入力 (閉じていないコメントや文字列) を表します。
+// SyntaxError は、JSONC として解釈できない入力 (閉じていないコメントや文字列) を表す。
 type SyntaxError struct {
 	Offset int    // 0 始まりのバイト位置
 	Line   int    // 1 始まり
@@ -34,10 +34,10 @@ func newSyntaxError(src []byte, offset int, msg string) *SyntaxError {
 	return &SyntaxError{Offset: offset, Line: line, Column: col, Msg: msg}
 }
 
-// Standardize は、コメントと末尾カンマを取り除いた、標準の JSON を返します。入力は変更しません。
+// Standardize は、コメントと末尾カンマを取り除いた、標準の JSON を返します。入力は変更しない。
 //
-// 文字列の中の "//"、"/*"、"," は、そのまま残します。
-// JSON としての正しさは検査しません (閉じていないコメントと文字列だけが、エラーです)。
+// 文字列の中の "//"、"/*"、"," は、そのまま残しておく。
+// JSON としての正しさは検査しない (閉じていないコメントと文字列だけが、エラー)。
 func Standardize(data []byte) ([]byte, error) {
 	out := make([]byte, len(data))
 	copy(out, data)
@@ -54,7 +54,7 @@ func Standardize(data []byte) ([]byte, error) {
 	return out, nil
 }
 
-// blankComments は、b の中のコメントを、その場で空白に置き換えます。
+// blankComments は、b の中のコメントを、その場で空白に置き換える。
 func blankComments(b []byte) error {
 	n := len(b)
 	for i := 0; i < n; i++ {
@@ -103,8 +103,8 @@ func blankComments(b []byte) error {
 	return nil
 }
 
-// blankTrailingCommas は、"}" または "]" の直前にあるカンマを、その場で空白に置き換えます。
-// コメントは、先に空白に置き換えてあるものとします。
+// blankTrailingCommas は、"}" または "]" の直前にあるカンマを、その場で空白に置き換える。
+// コメントは、先に空白に置き換えてあるものとする。
 func blankTrailingCommas(b []byte) {
 	n := len(b)
 	inString := false
