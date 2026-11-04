@@ -1,0 +1,1 @@
+{"url": "https://example.com/a//b", "pattern": "/* not a comment */", "glob": "src/**/*.go"}
