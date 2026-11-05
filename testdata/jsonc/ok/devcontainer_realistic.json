@@ -1,0 +1,8 @@
+{
+  "name": "my-project",
+  "build": {"dockerfile": "Dockerfile", "args": {"VARIANT": "bookworm"}},
+  "features": {"ghcr.io/devcontainers/features/git:1": {}},
+  "initializeCommand": ["sh", ".devcontainer/script/bootstrap.sh"],
+  "forwardPorts": [3000, "db:5432"],
+  "customizations": {"vscode": {"extensions": ["golang.go"]}}
+}

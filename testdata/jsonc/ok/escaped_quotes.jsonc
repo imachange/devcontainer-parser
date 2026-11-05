@@ -1,0 +1,5 @@
+{
+  "a": "say \"hi\" // still a string",
+  "b": "ends with a backslash \\", // real comment
+  "c": 1
+}

@@ -1,0 +1,19 @@
+// For format details, see https://aka.ms/devcontainer.json.
+{
+  "name": "my-project",
+  "build": {
+    "dockerfile": "Dockerfile", // relative to this file
+    "args": { "VARIANT": "bookworm", },
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+  },
+  /* lifecycle */
+  "initializeCommand": ["sh", ".devcontainer/script/bootstrap.sh"],
+  "forwardPorts": [3000, "db:5432",],
+  "customizations": {
+    "vscode": {
+      "extensions": ["golang.go"], // Go
+    },
+  },
+}
