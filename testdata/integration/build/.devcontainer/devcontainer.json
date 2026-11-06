@@ -1,0 +1,5 @@
+{
+  "name": "build-based",
+  "build": { "dockerfile": "Dockerfile", "context": ".." },
+  "image": "ignored-because-build-wins"
+}

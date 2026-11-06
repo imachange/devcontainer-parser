@@ -1,0 +1,51 @@
+// 複合構成フィクスチャ: JSONC (コメント・末尾カンマ) と、仕様の多様な記法をまとめて含む。
+// dockerComposeFile / build / image が同居するので、構成タイプは dockerCompose になる。
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.base.schema.json",
+  "name": "composite",
+
+  /* ---- 構成方式 ---- */
+  "dockerComposeFile": ["../compose.yml", "compose.override.yml"],
+  "service": "app",
+  "runServices": ["app", "db"],
+  "workspaceFolder": "/workspaces/composite",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "target": "dev",
+    "args": { "VARIANT": "bookworm", },
+    "cacheFrom": "example/cache:latest", // 単一文字列 → StringOrArray
+    "options": ["--network=host"],
+  },
+  "image": "mcr.microsoft.com/devcontainers/base:bookworm",
+
+  /* ---- 機能・ポート・環境 ---- */
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/go:1": { "version": "latest" },
+  },
+  "forwardPorts": [3000, "db:5432"],
+  "portsAttributes": { "3000": { "label": "web", "onAutoForward": "notify" } },
+  "otherPortsAttributes": { "onAutoForward": "silent" },
+  "containerEnv": { "TZ": "Asia/Tokyo" },
+  "remoteEnv": { "EDITOR": "vim", "UNSET_ME": null },
+  "mounts": [
+    "type=bind,source=/tmp,target=/mnt/tmp",
+    { "type": "volume", "source": "cache", "target": "/cache" },
+  ],
+  "capAdd": ["SYS_PTRACE"],
+
+  /* ---- ライフサイクルコマンド (文字列 / 配列 / オブジェクト) ---- */
+  "initializeCommand": "echo init",
+  "onCreateCommand": ["make", "setup"],
+  "postCreateCommand": {
+    "deps": "go mod download",
+    "lint": ["golangci-lint", "--version"],
+  },
+
+  "hostRequirements": { "cpus": 4, "memory": "8gb", "gpu": { "cores": 2, "memory": "4gb" } },
+  "customizations": { "vscode": { "extensions": ["golang.go"] } },
+
+  // スキーマに無いキー
+  "myCustomKey": { "x": 1 },
+}

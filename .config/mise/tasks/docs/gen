@@ -2,4 +2,20 @@
 # MISE description="gomarkdoc による API ドキュメント (docs/api/*.md) 自動生成"
 set -euo pipefail
 
-gomarkdoc --output 'docs/api/{{if eq .Dir "."}}parser{{else}}{{.Dir}}{{end}}.md' ./...
+module=$(go list -m)
+
+while IFS= read -r pkg; do
+  rel=${pkg#"$module"}   # ルートは空、サブパッケージは "/discovery" など
+  rel=${rel#/}
+  if [ -z "$rel" ]; then
+    name=parser
+    target=.
+  else
+    name=$rel
+    target=./$rel
+  fi
+
+  out="docs/api/${name}.md"
+  mkdir -p "$(dirname "$out")"
+  gomarkdoc --output "$out" "$target"
+done < <(go list ./...)
