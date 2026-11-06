@@ -18,10 +18,9 @@ jobs:
 
     steps:
       - name: リポジトリのチェックアウト
-        uses: actions/checkout@v4
-
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #7.0.1
       - name: mise のセットアップ
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c #5.2.6
 
       - name: API ドキュメント生成および差分チェック
         run: mise run docs:check

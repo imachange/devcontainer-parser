@@ -18,9 +18,9 @@ jobs:
 
     steps:
       - name: リポジトリのチェックアウト
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #7.0.1
       - name: mise のセットアップ
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c #5.2.6
       - name: Pre-commit フックの実行 (Lint・整列・タイポチェック)
         run: lefthook run pre-commit --all-files
       - name: Pre-push フックの実行 (単体テスト・脆弱性チェック)
