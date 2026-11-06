@@ -7,14 +7,14 @@ import "github.com/imachange/devcontainer-parser/spec"
 type ConfigType string
 
 const (
-    // TypeBuild は Dockerfile による構成。
-    TypeBuild ConfigType = "build"
-    // TypeImage は Docker イメージによる構成。
-    TypeImage ConfigType = "image"
-    // TypeDockerCompose は Docker Compose による構成。
+	// TypeBuild は Dockerfile による構成。
+	TypeBuild ConfigType = "build"
+	// TypeImage は Docker イメージによる構成。
+	TypeImage ConfigType = "image"
+	// TypeDockerCompose は Docker Compose による構成。
 	TypeDockerCompose ConfigType = "dockerCompose"
-    // TypeUnknown は不明な構成。
-    TypeUnknown ConfigType = "unknown"
+	// TypeUnknown は不明な構成。
+	TypeUnknown ConfigType = "unknown"
 )
 
 // Evaluate は、次の優先順位で、構成方式を判定。どれにも当てはまらなければ、TypeUnknown 。

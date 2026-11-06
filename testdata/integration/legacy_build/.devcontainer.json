@@ -1,0 +1,6 @@
+// 旧形式 (トップレベルの dockerFile / context)
+{
+  "name": "legacy-build",
+  "dockerFile": "Dockerfile",
+  "context": ".."
+}

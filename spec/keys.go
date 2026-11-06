@@ -9,7 +9,6 @@ import "sort"
 //   - vscode: extensions、settings、devPort (どれも非推奨。customizations.vscode を使う)
 //   - codespaces: codespaces (非推奨。customizations.codespaces を使う)
 //   - vscode / codespaces: customizations (base と同じキー)
-//
 var TopLevelKeys = []string{
 	"$schema",
 	"appPort",

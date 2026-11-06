@@ -2,4 +2,29 @@
 # MISE description="gomarkdoc による API ドキュメント (docs/api/*.md) 自動生成"
 set -euo pipefail
 
-gomarkdoc --output 'docs/api/{{if eq .Dir "."}}parser{{else}}{{.Dir}}{{end}}.md' ./...
+# CI (shallow clone・detached HEAD) では、リポジトリ情報を自動検出できず、
+# ソースへのリンクが出力されない。ローカルと CI の出力を一致させるため、明示する。
+repo_url="https://github.com/imachange/devcontainer-parser"
+default_branch="main"
+
+module=$(go list -m)
+
+while IFS= read -r pkg; do
+  rel=${pkg#"$module"}   # ルートは空、サブパッケージは "/discovery" など
+  rel=${rel#/}
+  if [ -z "$rel" ]; then
+    name=parser
+    target=.
+  else
+    name=$rel
+    target=./$rel
+  fi
+
+  out="docs/api/${name}.md"
+  mkdir -p "$(dirname "$out")"
+  gomarkdoc \
+    --repository.url "$repo_url" \
+    --repository.default-branch "$default_branch" \
+    --repository.path / \
+    --output "$out" "$target"
+done < <(go list ./...)

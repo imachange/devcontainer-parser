@@ -13,10 +13,10 @@ pre-commit:
       glob: ".github/workflows/*.yml"
       run: actionlint
 
-# pre-push:
-#   parallel: false
-#   commands:
-#     test:
-#       run: go test -v -race ./...
-#     govulncheck:
-#       run: govulncheck ./...
+pre-push:
+  parallel: false
+  commands:
+    test:
+      run: go test -v -race ./...
+    govulncheck:
+      run: govulncheck ./...
