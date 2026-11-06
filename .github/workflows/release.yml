@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: テストと GitHub Release の作成
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #7.0.1
+      - name: mise のセットアップ
+        uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c #5.2.6
+
+      - name: 単体テストの実行
+        run: mise run test:unit
+
+      - name: API ドキュメントの差分チェック
+        run: mise run docs:check
+
+      - name: GitHub Release の作成
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          flags=(--generate-notes --verify-tag)
+          # v1.0.0-rc.1 のようにハイフンを含むタグは、プレリリースにする
+          if [[ "${GITHUB_REF_NAME}" == *-* ]]; then
+            flags+=(--prerelease)
+          fi
+          gh release create "${GITHUB_REF_NAME}" "${flags[@]}"
+
+      - name: Go モジュールプロキシへの事前登録
+        run: |
+          GOPROXY=https://proxy.golang.org GOFLAGS=-mod=mod \
+            go list -m "github.com/imachange/devcontainer-parser@${GITHUB_REF_NAME}" || true
