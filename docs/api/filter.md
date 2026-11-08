@@ -6,7 +6,7 @@
 import "github.com/imachange/devcontainer-parser/filter"
 ```
 
-Package filter は、設定のトップレベルキーを、Used / Ignored / Unknown の 3 つに分類。
+Package filter は、設定のトップレベルキーを、Used / Ignored / Unknown の 3 つに分類する。
 
 ## Index
 
@@ -17,7 +17,7 @@ Package filter は、設定のトップレベルキーを、Used / Ignored / Unk
 
 
 <a name="Keys"></a>
-## func [Keys](<https://github.com/imachange/devcontainer-parser/blob/main/filter/filter.go#L73>)
+## func [Keys](<https://github.com/imachange/devcontainer-parser/blob/main/filter/filter.go#L66>)
 
 ```go
 func Keys(m map[string][]byte) []string
@@ -26,9 +26,9 @@ func Keys(m map[string][]byte) []string
 Keys は、マップのキーを、辞書順で返す。
 
 <a name="Result"></a>
-## type [Result](<https://github.com/imachange/devcontainer-parser/blob/main/filter/filter.go#L16-L20>)
+## type [Result](<https://github.com/imachange/devcontainer-parser/blob/main/filter/filter.go#L17-L21>)
 
-Result は、分類の結果です。値は、各キーの、生の JSON。
+Result は、分類の結果。値は、各キーの、生の JSON。
 
 - Used: 呼び出し側のツールが処理対象 \(supportedKeys\) としているキー
 - Ignored: スキーマが定義しているが、ツールが処理対象にしていないキー
@@ -43,18 +43,18 @@ type Result struct {
 ```
 
 <a name="Filter"></a>
-### func [Filter](<https://github.com/imachange/devcontainer-parser/blob/main/filter/filter.go#L26>)
+### func [Filter](<https://github.com/imachange/devcontainer-parser/blob/main/filter/filter.go#L27>)
 
 ```go
 func Filter(data []byte, supportedKeys []string) (*Result, error)
 ```
 
-Filter は、data \(標準 JSON のオブジェクト\) のトップレベルキーを分類。
+Filter は、data \(標準 JSON のオブジェクト\) のトップレベルキーを分類する。
 
 supportedKeys が nil のときは、スキーマが定義するすべてのキーを、処理対象として扱う。 空 \(nil でない\) のときは、処理対象が無いものとして扱う。
 
 <a name="Top"></a>
-### func [Top](<https://github.com/imachange/devcontainer-parser/blob/main/filter/filter.go#L41>)
+### func [Top](<https://github.com/imachange/devcontainer-parser/blob/main/filter/filter.go#L42>)
 
 ```go
 func Top(top map[string]json.RawMessage, supportedKeys []string) *Result

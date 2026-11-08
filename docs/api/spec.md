@@ -108,7 +108,7 @@ var TopLevelKeys = []string{
 ```
 
 <a name="IsKnownKey"></a>
-## func [IsKnownKey](<https://github.com/imachange/devcontainer-parser/blob/main/spec/keys.go#L69>)
+## func [IsKnownKey](<https://github.com/imachange/devcontainer-parser/blob/main/spec/keys.go#L72>)
 
 ```go
 func IsKnownKey(key string) bool
@@ -117,7 +117,7 @@ func IsKnownKey(key string) bool
 IsKnownKey は、スキーマが定義するトップレベルのキーかを返す \(大文字小文字を区別する\)。
 
 <a name="SortedKeys"></a>
-## func [SortedKeys](<https://github.com/imachange/devcontainer-parser/blob/main/spec/keys.go#L75>)
+## func [SortedKeys](<https://github.com/imachange/devcontainer-parser/blob/main/spec/keys.go#L78>)
 
 ```go
 func SortedKeys[V any](m map[string]V) []string
@@ -168,59 +168,59 @@ DevContainerConfig は、devcontainer.json の、トップレベルのすべて�
 
 ```go
 type DevContainerConfig struct {
-    Schema                      string                     `json:"$schema,omitempty"`
-    Name                        string                     `json:"name,omitempty"`
-    Features                    map[string]json.RawMessage `json:"features,omitempty"`
-    OverrideFeatureInstallOrder []string                   `json:"overrideFeatureInstallOrder,omitempty"`
-    Secrets                     map[string]Secret          `json:"secrets,omitempty"`
-    ForwardPorts                []PortMapping              `json:"forwardPorts,omitempty"`
-    PortsAttributes             map[string]PortAttributes  `json:"portsAttributes,omitempty"`
-    OtherPortsAttributes        *PortAttributes            `json:"otherPortsAttributes,omitempty"`
-    UpdateRemoteUserUID         *bool                      `json:"updateRemoteUserUID,omitempty"`
-    ContainerEnv                map[string]string          `json:"containerEnv,omitempty"`
-    ContainerUser               string                     `json:"containerUser,omitempty"`
-    Mounts                      []Mount                    `json:"mounts,omitempty"`
-    Init                        *bool                      `json:"init,omitempty"`
-    Privileged                  *bool                      `json:"privileged,omitempty"`
-    CapAdd                      []string                   `json:"capAdd,omitempty"`
-    SecurityOpt                 []string                   `json:"securityOpt,omitempty"`
-    // RemoteEnv の値は、null を許します (その環境変数を取り除く)。
-    RemoteEnv            map[string]*string `json:"remoteEnv,omitempty"`
-    RemoteUser           string             `json:"remoteUser,omitempty"`
+    Schema                      string                     `json:"$schema,omitzero"`
+    Name                        string                     `json:"name,omitzero"`
+    Features                    map[string]json.RawMessage `json:"features,omitzero"`
+    OverrideFeatureInstallOrder []string                   `json:"overrideFeatureInstallOrder,omitzero"`
+    Secrets                     map[string]Secret          `json:"secrets,omitzero"`
+    ForwardPorts                []PortMapping              `json:"forwardPorts,omitzero"`
+    PortsAttributes             map[string]PortAttributes  `json:"portsAttributes,omitzero"`
+    OtherPortsAttributes        *PortAttributes            `json:"otherPortsAttributes,omitzero"`
+    UpdateRemoteUserUID         *bool                      `json:"updateRemoteUserUID,omitzero"`
+    ContainerEnv                map[string]string          `json:"containerEnv,omitzero"`
+    ContainerUser               string                     `json:"containerUser,omitzero"`
+    Mounts                      []Mount                    `json:"mounts,omitzero"`
+    Init                        *bool                      `json:"init,omitzero"`
+    Privileged                  *bool                      `json:"privileged,omitzero"`
+    CapAdd                      []string                   `json:"capAdd,omitzero"`
+    SecurityOpt                 []string                   `json:"securityOpt,omitzero"`
+    // RemoteEnv の値は、null を許す (その環境変数を取り除く)。
+    RemoteEnv            map[string]*string `json:"remoteEnv,omitzero"`
+    RemoteUser           string             `json:"remoteUser,omitzero"`
     InitializeCommand    LifecycleCommand   `json:"initializeCommand,omitzero"`
     OnCreateCommand      LifecycleCommand   `json:"onCreateCommand,omitzero"`
     UpdateContentCommand LifecycleCommand   `json:"updateContentCommand,omitzero"`
     PostCreateCommand    LifecycleCommand   `json:"postCreateCommand,omitzero"`
     PostStartCommand     LifecycleCommand   `json:"postStartCommand,omitzero"`
     PostAttachCommand    LifecycleCommand   `json:"postAttachCommand,omitzero"`
-    WaitFor              string             `json:"waitFor,omitempty"`
-    UserEnvProbe         string             `json:"userEnvProbe,omitempty"`
-    HostRequirements     *HostRequirements  `json:"hostRequirements,omitempty"`
-    // Customizations は、ツール固有の設定です。ツールごとのキーの下は、生の JSON のまま保持する。
-    Customizations map[string]json.RawMessage `json:"customizations,omitempty"`
+    WaitFor              string             `json:"waitFor,omitzero"`
+    UserEnvProbe         string             `json:"userEnvProbe,omitzero"`
+    HostRequirements     *HostRequirements  `json:"hostRequirements,omitzero"`
+    // Customizations は、ツール固有の設定。ツールごとのキーの下は、生の JSON のまま保持する。
+    Customizations map[string]json.RawMessage `json:"customizations,omitzero"`
 
-    AppPort         PortList `json:"appPort,omitempty"`
-    RunArgs         []string `json:"runArgs,omitempty"`
-    ShutdownAction  string   `json:"shutdownAction,omitempty"`
-    OverrideCommand *bool    `json:"overrideCommand,omitempty"`
-    WorkspaceFolder string   `json:"workspaceFolder,omitempty"`
-    WorkspaceMount  string   `json:"workspaceMount,omitempty"`
+    AppPort         PortList `json:"appPort,omitzero"`
+    RunArgs         []string `json:"runArgs,omitzero"`
+    ShutdownAction  string   `json:"shutdownAction,omitzero"`
+    OverrideCommand *bool    `json:"overrideCommand,omitzero"`
+    WorkspaceFolder string   `json:"workspaceFolder,omitzero"`
+    WorkspaceMount  string   `json:"workspaceMount,omitzero"`
 
-    Build *BuildSpec `json:"build,omitempty"`
-    // DockerFile と Context は、旧形式 (トップレベルの dockerFile / context) です。
-    DockerFile string `json:"dockerFile,omitempty"`
-    Context    string `json:"context,omitempty"`
+    Build *BuildSpec `json:"build,omitzero"`
+    // DockerFile と Context は、旧形式 (トップレベルの dockerFile / context)。
+    DockerFile string `json:"dockerFile,omitzero"`
+    Context    string `json:"context,omitzero"`
 
-    Image string `json:"image,omitempty"`
+    Image string `json:"image,omitzero"`
 
-    DockerComposeFile StringOrArray `json:"dockerComposeFile,omitempty"`
-    Service           string        `json:"service,omitempty"`
-    RunServices       []string      `json:"runServices,omitempty"`
+    DockerComposeFile StringOrArray `json:"dockerComposeFile,omitzero"`
+    Service           string        `json:"service,omitzero"`
+    RunServices       []string      `json:"runServices,omitzero"`
 
-    Extensions []string        `json:"extensions,omitempty"`
-    Settings   json.RawMessage `json:"settings,omitempty"`
-    DevPort    *int            `json:"devPort,omitempty"`
-    Codespaces json.RawMessage `json:"codespaces,omitempty"`
+    Extensions []string        `json:"extensions,omitzero"`
+    Settings   json.RawMessage `json:"settings,omitzero"`
+    DevPort    *int            `json:"devPort,omitzero"`
+    Codespaces json.RawMessage `json:"codespaces,omitzero"`
 }
 ```
 
@@ -297,10 +297,10 @@ HostRequirements は、hostRequirements 。
 
 ```go
 type HostRequirements struct {
-    CPUs    *int            `json:"cpus,omitempty"`
-    Memory  string          `json:"memory,omitempty"`
-    Storage string          `json:"storage,omitempty"`
-    GPU     *GPURequirement `json:"gpu,omitempty"`
+    CPUs    *int            `json:"cpus,omitzero"`
+    Memory  string          `json:"memory,omitzero"`
+    Storage string          `json:"storage,omitzero"`
+    GPU     *GPURequirement `json:"gpu,omitzero"`
 }
 ```
 
@@ -352,9 +352,9 @@ Mount は、mounts の 1 要素。オブジェクト形式、または Docker �
 
 ```go
 type Mount struct {
-    Type   string `json:"type,omitempty"`
-    Source string `json:"source,omitempty"`
-    Target string `json:"target,omitempty"`
+    Type   string `json:"type,omitzero"`
+    Source string `json:"source,omitzero"`
+    Target string `json:"target,omitzero"`
     // Raw は、文字列形式の原文 (オブジェクト形式では空)。
     Raw string `json:"-"`
 }
@@ -385,11 +385,11 @@ PortAttributes は、portsAttributes / otherPortsAttributes の値。
 
 ```go
 type PortAttributes struct {
-    OnAutoForward    string `json:"onAutoForward,omitempty"`
-    ElevateIfNeeded  *bool  `json:"elevateIfNeeded,omitempty"`
-    Label            string `json:"label,omitempty"`
-    RequireLocalPort *bool  `json:"requireLocalPort,omitempty"`
-    Protocol         string `json:"protocol,omitempty"`
+    OnAutoForward    string `json:"onAutoForward,omitzero"`
+    ElevateIfNeeded  *bool  `json:"elevateIfNeeded,omitzero"`
+    Label            string `json:"label,omitzero"`
+    RequireLocalPort *bool  `json:"requireLocalPort,omitzero"`
+    Protocol         string `json:"protocol,omitzero"`
 }
 ```
 
@@ -416,7 +416,7 @@ UnmarshalJSON は、単一の値を、1 要素の一覧として読む。
 
 PortMapping は、forwardPorts / appPort の 1 要素。整数のポート番号、または文字列。
 
-文字列の場合は、原文を Spec に保持する。 forwardPorts の "host:port" 形式 \(^\(\[a\-z0\-9\-\]\+\):\(\\d\{1,5\}\)$\) に 一致するときは、Host と Port も設定する。 appPort の "8000:8010" \(ホストのポート:コンテナのポート\) も、この形式に一致するので、Host="8000"、Port=8010 に なります。appPort として扱うときは、Spec を、Docker のポート指定として解釈する。
+文字列の場合は、原文を Spec に保持する。 forwardPorts の "host:port" 形式 \(^\(\[a\-z0\-9\-\]\+\):\(\\d\{1,5\}\)$\) に 一致するときは、Host と Port も設定する。 appPort の "8000:8010" \(ホストのポート:コンテナのポート\) も、この形式に一致するため、Host="8000"、Port=8010 となる。 appPort として扱うときは、Spec を、Docker のポート指定として解釈する。
 
 ```go
 type PortMapping struct {
@@ -451,8 +451,8 @@ Secret は、secrets の値。
 
 ```go
 type Secret struct {
-    Description      string `json:"description,omitempty"`
-    DocumentationURL string `json:"documentationUrl,omitempty"`
+    Description      string `json:"description,omitzero"`
+    DocumentationURL string `json:"documentationUrl,omitzero"`
 }
 ```
 
