@@ -7,6 +7,7 @@ import (
 	"iter"
 	"os"
 	"path/filepath"
+	"slices"
 )
 
 // ErrNotFound は、devcontainer.json が見つからなかったことを表す。
@@ -31,9 +32,14 @@ func Candidates(root string) ([]string, error) {
 
 	r, err := os.OpenRoot(root)
 	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return nil, nil
+		}
 		return nil, err
 	}
-	defer r.Close()
+	defer func() {
+		_ = r.Close()
+	}()
 
 	base := ".devcontainer"
 
@@ -43,6 +49,7 @@ func Candidates(root string) ([]string, error) {
 
 	if f, err := r.Open(base); err == nil {
 		if entries, err := f.Readdirnames(-1); err == nil {
+			slices.Sort(entries) // 名前の辞書順にソート
 			for _, name := range entries {
 				p := filepath.Join(base, name, "devcontainer.json")
 				if isFileInRoot(r, p) {

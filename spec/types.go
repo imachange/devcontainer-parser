@@ -342,7 +342,7 @@ func (c LifecycleCommand) MarshalJSON() ([]byte, error) {
 	case c.Single != nil:
 		return marshalCommand(*c.Single)
 	case len(c.Parallel) > 0:
-		m := make(map[string][]byte, len(c.Parallel))
+		m := make(map[string]json.RawMessage, len(c.Parallel))
 		for name, cmd := range c.Parallel {
 			b, err := marshalCommand(cmd)
 			if err != nil {
