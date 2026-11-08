@@ -4,6 +4,7 @@ package discovery
 import (
 	"errors"
 	"fmt"
+	"iter"
 	"os"
 	"path/filepath"
 )
@@ -28,25 +29,50 @@ var Patterns = []string{
 func Candidates(root string) ([]string, error) {
 	var found []string
 
-	base := filepath.Join(root, ".devcontainer")
+	r, err := os.OpenRoot(root)
+	if err != nil {
+		return nil, err
+	}
+	defer r.Close()
 
-	if p := filepath.Join(base, "devcontainer.json"); isFile(p) {
-		found = append(found, p)
+	base := ".devcontainer"
+
+	if isFileInRoot(r, filepath.Join(base, "devcontainer.json")) {
+		found = append(found, filepath.Join(root, base, "devcontainer.json"))
 	}
 
-	// .devcontainer が無い、またはディレクトリではないときは、読み取りに失敗するだけなので、無視する。
-	// os.ReadDir は、名前の辞書順で返す。
-	entries, _ := os.ReadDir(base)
-	for _, e := range entries {
-		if p := filepath.Join(base, e.Name(), "devcontainer.json"); isFile(p) {
-			found = append(found, p)
+	if f, err := r.Open(base); err == nil {
+		if entries, err := f.Readdirnames(-1); err == nil {
+			for _, name := range entries {
+				p := filepath.Join(base, name, "devcontainer.json")
+				if isFileInRoot(r, p) {
+					found = append(found, filepath.Join(root, p))
+				}
+			}
 		}
+		_ = f.Close()
 	}
 
-	if p := filepath.Join(root, ".devcontainer.json"); isFile(p) {
-		found = append(found, p)
+	if isFileInRoot(r, ".devcontainer.json") {
+		found = append(found, filepath.Join(root, ".devcontainer.json"))
 	}
 	return found, nil
+}
+
+// CandidatesSeq は、Candidates と同様の探索を標準イテレータ (iter.Seq2) として返す。
+func CandidatesSeq(root string) iter.Seq2[string, error] {
+	return func(yield func(string, error) bool) {
+		candidates, err := Candidates(root)
+		if err != nil {
+			yield("", err)
+			return
+		}
+		for _, c := range candidates {
+			if !yield(c, nil) {
+				return
+			}
+		}
+	}
 }
 
 // Find は、最も優先順位の高い devcontainer.json のパスを返す。
@@ -62,7 +88,7 @@ func Find(root string) (string, error) {
 	return found[0], nil
 }
 
-func isFile(path string) bool {
-	info, err := os.Stat(path)
+func isFileInRoot(r *os.Root, relPath string) bool {
+	info, err := r.Stat(relPath)
 	return err == nil && info.Mode().IsRegular()
 }

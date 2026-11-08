@@ -38,7 +38,7 @@ func ReadFile(path string, opts ...Option) (*Result, error) {
 
 // LoadFromDir は、ディレクトリから devcontainer.json を自動探索して、解析する。
 //
-// 探す順序は、discovery.Candidates のとおりです。複数見つかったときは、最も優先順位の高いものを使い、
+// 探す順序は、discovery.Candidates のとおり。複数見つかったときは、最も優先順位の高いものを使い、
 // 他のものを知らせる INFO の診断を、Diagnostics に加える。
 // 1 つも見つからないときは、*NotFoundError を返す。
 func LoadFromDir(dir string, opts ...Option) (*Result, error) {

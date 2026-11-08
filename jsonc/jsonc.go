@@ -3,8 +3,8 @@
 // 出力は入力と同じ長さ。コメントと末尾カンマ、BOM は、空白に置き換える (改行は残す)。
 // そのため、encoding/json が報告するバイト位置は、元のファイルの位置とそのまま対応。
 //
-// なお、devcontainer.json のスキーマ (devContainer.base.schema.json) は、末尾カンマを許容しない。
-// (allowTrailingCommas が false) が、VS Code などは許容するので、この実装も許容。
+// なお、devcontainer.json のスキーマ (devContainer.base.schema.json) は、末尾カンマを許容しない
+// (allowTrailingCommas が false) が、VS Code などは許容するため、この実装も許容。
 package jsonc
 
 import "fmt"
@@ -34,7 +34,7 @@ func newSyntaxError(src []byte, offset int, msg string) *SyntaxError {
 	return &SyntaxError{Offset: offset, Line: line, Column: col, Msg: msg}
 }
 
-// Standardize は、コメントと末尾カンマを取り除いた、標準の JSON を返します。入力は変更しない。
+// Standardize は、コメントと末尾カンマを取り除いた、標準の JSON を返す。入力は変更しない。
 //
 // 文字列の中の "//"、"/*"、"," は、そのまま残しておく。
 // JSON としての正しさは検査しない (閉じていないコメントと文字列だけが、エラー)。

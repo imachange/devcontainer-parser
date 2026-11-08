@@ -1,14 +1,15 @@
-// Package filter は、設定のトップレベルキーを、Used / Ignored / Unknown の 3 つに分類。
+// Package filter は、設定のトップレベルキーを、Used / Ignored / Unknown の 3 つに分類する。
 package filter
 
 import (
 	"encoding/json"
 	"fmt"
+	"slices"
 
 	"github.com/imachange/devcontainer-parser/spec"
 )
 
-// Result は、分類の結果です。値は、各キーの、生の JSON。
+// Result は、分類の結果。値は、各キーの、生の JSON。
 //
 //   - Used: 呼び出し側のツールが処理対象 (supportedKeys) としているキー
 //   - Ignored: スキーマが定義しているが、ツールが処理対象にしていないキー
@@ -19,7 +20,7 @@ type Result struct {
 	Unknown map[string][]byte
 }
 
-// Filter は、data (標準 JSON のオブジェクト) のトップレベルキーを分類。
+// Filter は、data (標準 JSON のオブジェクト) のトップレベルキーを分類する。
 //
 // supportedKeys が nil のときは、スキーマが定義するすべてのキーを、処理対象として扱う。
 // 空 (nil でない) のときは、処理対象が無いものとして扱う。
@@ -39,14 +40,6 @@ func Filter(data []byte, supportedKeys []string) (*Result, error) {
 // supportedKeys に含まれるキーは、スキーマに無いものでも、存在すれば Used に分類される。
 // (ツールが、独自のキーを処理対象にしている場合のため)。
 func Top(top map[string]json.RawMessage, supportedKeys []string) *Result {
-	var supported map[string]struct{}
-	if supportedKeys != nil {
-		supported = make(map[string]struct{}, len(supportedKeys))
-		for _, k := range supportedKeys {
-			supported[k] = struct{}{}
-		}
-	}
-
 	res := &Result{
 		Used:    map[string][]byte{},
 		Ignored: map[string][]byte{},
@@ -54,7 +47,7 @@ func Top(top map[string]json.RawMessage, supportedKeys []string) *Result {
 	}
 	for key, raw := range top {
 		value := append([]byte(nil), raw...)
-		_, isSupported := supported[key]
+		isSupported := supportedKeys != nil && slices.Contains(supportedKeys, key)
 		switch {
 		case supportedKeys == nil && spec.IsKnownKey(key):
 			res.Used[key] = value
