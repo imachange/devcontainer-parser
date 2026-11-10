@@ -14,92 +14,92 @@ import (
 type DevContainerConfig struct {
 	// ---- 共通 (devContainerCommon)
 
-	Schema                      string                     `json:"$schema,omitempty"`
-	Name                        string                     `json:"name,omitempty"`
-	Features                    map[string]json.RawMessage `json:"features,omitempty"`
-	OverrideFeatureInstallOrder []string                   `json:"overrideFeatureInstallOrder,omitempty"`
-	Secrets                     map[string]Secret          `json:"secrets,omitempty"`
-	ForwardPorts                []PortMapping              `json:"forwardPorts,omitempty"`
-	PortsAttributes             map[string]PortAttributes  `json:"portsAttributes,omitempty"`
-	OtherPortsAttributes        *PortAttributes            `json:"otherPortsAttributes,omitempty"`
-	UpdateRemoteUserUID         *bool                      `json:"updateRemoteUserUID,omitempty"`
-	ContainerEnv                map[string]string          `json:"containerEnv,omitempty"`
-	ContainerUser               string                     `json:"containerUser,omitempty"`
-	Mounts                      []Mount                    `json:"mounts,omitempty"`
-	Init                        *bool                      `json:"init,omitempty"`
-	Privileged                  *bool                      `json:"privileged,omitempty"`
-	CapAdd                      []string                   `json:"capAdd,omitempty"`
-	SecurityOpt                 []string                   `json:"securityOpt,omitempty"`
-	// RemoteEnv の値は、null を許します (その環境変数を取り除く)。
-	RemoteEnv            map[string]*string `json:"remoteEnv,omitempty"`
-	RemoteUser           string             `json:"remoteUser,omitempty"`
+	Schema                      string                     `json:"$schema,omitzero"`
+	Name                        string                     `json:"name,omitzero"`
+	Features                    map[string]json.RawMessage `json:"features,omitzero"`
+	OverrideFeatureInstallOrder []string                   `json:"overrideFeatureInstallOrder,omitzero"`
+	Secrets                     map[string]Secret          `json:"secrets,omitzero"`
+	ForwardPorts                []PortMapping              `json:"forwardPorts,omitzero"`
+	PortsAttributes             map[string]PortAttributes  `json:"portsAttributes,omitzero"`
+	OtherPortsAttributes        *PortAttributes            `json:"otherPortsAttributes,omitzero"`
+	UpdateRemoteUserUID         *bool                      `json:"updateRemoteUserUID,omitzero"`
+	ContainerEnv                map[string]string          `json:"containerEnv,omitzero"`
+	ContainerUser               string                     `json:"containerUser,omitzero"`
+	Mounts                      []Mount                    `json:"mounts,omitzero"`
+	Init                        *bool                      `json:"init,omitzero"`
+	Privileged                  *bool                      `json:"privileged,omitzero"`
+	CapAdd                      []string                   `json:"capAdd,omitzero"`
+	SecurityOpt                 []string                   `json:"securityOpt,omitzero"`
+	// RemoteEnv の値は、null を許す (その環境変数を取り除く)。
+	RemoteEnv            map[string]*string `json:"remoteEnv,omitzero"`
+	RemoteUser           string             `json:"remoteUser,omitzero"`
 	InitializeCommand    LifecycleCommand   `json:"initializeCommand,omitzero"`
 	OnCreateCommand      LifecycleCommand   `json:"onCreateCommand,omitzero"`
 	UpdateContentCommand LifecycleCommand   `json:"updateContentCommand,omitzero"`
 	PostCreateCommand    LifecycleCommand   `json:"postCreateCommand,omitzero"`
 	PostStartCommand     LifecycleCommand   `json:"postStartCommand,omitzero"`
 	PostAttachCommand    LifecycleCommand   `json:"postAttachCommand,omitzero"`
-	WaitFor              string             `json:"waitFor,omitempty"`
-	UserEnvProbe         string             `json:"userEnvProbe,omitempty"`
-	HostRequirements     *HostRequirements  `json:"hostRequirements,omitempty"`
-	// Customizations は、ツール固有の設定です。ツールごとのキーの下は、生の JSON のまま保持する。
-	Customizations map[string]json.RawMessage `json:"customizations,omitempty"`
+	WaitFor              string             `json:"waitFor,omitzero"`
+	UserEnvProbe         string             `json:"userEnvProbe,omitzero"`
+	HostRequirements     *HostRequirements  `json:"hostRequirements,omitzero"`
+	// Customizations は、ツール固有の設定。ツールごとのキーの下は、生の JSON のまま保持する。
+	Customizations map[string]json.RawMessage `json:"customizations,omitzero"`
 
 	// ---- コンテナの起動方式が compose ではないときのキー (nonComposeBase。一部は compose と共通)
 
-	AppPort         PortList `json:"appPort,omitempty"`
-	RunArgs         []string `json:"runArgs,omitempty"`
-	ShutdownAction  string   `json:"shutdownAction,omitempty"`
-	OverrideCommand *bool    `json:"overrideCommand,omitempty"`
-	WorkspaceFolder string   `json:"workspaceFolder,omitempty"`
-	WorkspaceMount  string   `json:"workspaceMount,omitempty"`
+	AppPort         PortList `json:"appPort,omitzero"`
+	RunArgs         []string `json:"runArgs,omitzero"`
+	ShutdownAction  string   `json:"shutdownAction,omitzero"`
+	OverrideCommand *bool    `json:"overrideCommand,omitzero"`
+	WorkspaceFolder string   `json:"workspaceFolder,omitzero"`
+	WorkspaceMount  string   `json:"workspaceMount,omitzero"`
 
 	// ---- Dockerfile 方式 (dockerfileContainer)
 
-	Build *BuildSpec `json:"build,omitempty"`
-	// DockerFile と Context は、旧形式 (トップレベルの dockerFile / context) です。
-	DockerFile string `json:"dockerFile,omitempty"`
-	Context    string `json:"context,omitempty"`
+	Build *BuildSpec `json:"build,omitzero"`
+	// DockerFile と Context は、旧形式 (トップレベルの dockerFile / context)。
+	DockerFile string `json:"dockerFile,omitzero"`
+	Context    string `json:"context,omitzero"`
 
 	// ---- イメージ方式 (imageContainer)
 
-	Image string `json:"image,omitempty"`
+	Image string `json:"image,omitzero"`
 
 	// ---- Docker Compose 方式 (composeContainer)
 
-	DockerComposeFile StringOrArray `json:"dockerComposeFile,omitempty"`
-	Service           string        `json:"service,omitempty"`
-	RunServices       []string      `json:"runServices,omitempty"`
+	DockerComposeFile StringOrArray `json:"dockerComposeFile,omitzero"`
+	Service           string        `json:"service,omitzero"`
+	RunServices       []string      `json:"runServices,omitzero"`
 
 	// ---- VS Code / Codespaces 用のスキーマ (どちらも、トップレベルの旧形式は非推奨)
 
-	Extensions []string        `json:"extensions,omitempty"`
-	Settings   json.RawMessage `json:"settings,omitempty"`
-	DevPort    *int            `json:"devPort,omitempty"`
-	Codespaces json.RawMessage `json:"codespaces,omitempty"`
+	Extensions []string        `json:"extensions,omitzero"`
+	Settings   json.RawMessage `json:"settings,omitzero"`
+	DevPort    *int            `json:"devPort,omitzero"`
+	Codespaces json.RawMessage `json:"codespaces,omitzero"`
 }
 
 // Secret は、secrets の値。
 type Secret struct {
-	Description      string `json:"description,omitempty"`
-	DocumentationURL string `json:"documentationUrl,omitempty"`
+	Description      string `json:"description,omitzero"`
+	DocumentationURL string `json:"documentationUrl,omitzero"`
 }
 
 // PortAttributes は、portsAttributes / otherPortsAttributes の値。
 type PortAttributes struct {
-	OnAutoForward    string `json:"onAutoForward,omitempty"`
-	ElevateIfNeeded  *bool  `json:"elevateIfNeeded,omitempty"`
-	Label            string `json:"label,omitempty"`
-	RequireLocalPort *bool  `json:"requireLocalPort,omitempty"`
-	Protocol         string `json:"protocol,omitempty"`
+	OnAutoForward    string `json:"onAutoForward,omitzero"`
+	ElevateIfNeeded  *bool  `json:"elevateIfNeeded,omitzero"`
+	Label            string `json:"label,omitzero"`
+	RequireLocalPort *bool  `json:"requireLocalPort,omitzero"`
+	Protocol         string `json:"protocol,omitzero"`
 }
 
 // HostRequirements は、hostRequirements 。
 type HostRequirements struct {
-	CPUs    *int            `json:"cpus,omitempty"`
-	Memory  string          `json:"memory,omitempty"`
-	Storage string          `json:"storage,omitempty"`
-	GPU     *GPURequirement `json:"gpu,omitempty"`
+	CPUs    *int            `json:"cpus,omitzero"`
+	Memory  string          `json:"memory,omitzero"`
+	Storage string          `json:"storage,omitzero"`
+	GPU     *GPURequirement `json:"gpu,omitzero"`
 }
 
 // Decode は、トップレベルのキーと値から、DevContainerConfig を作る。

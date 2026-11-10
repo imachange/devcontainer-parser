@@ -56,8 +56,8 @@ var hostPortRe = regexp.MustCompile(`^([a-z0-9-]+):(\d{1,5})$`)
 // 文字列の場合は、原文を Spec に保持する。
 // forwardPorts の "host:port" 形式 (^([a-z0-9-]+):(\d{1,5})$) に
 // 一致するときは、Host と Port も設定する。
-// appPort の "8000:8010" (ホストのポート:コンテナのポート) も、この形式に一致するので、Host="8000"、Port=8010 に
-// なります。appPort として扱うときは、Spec を、Docker のポート指定として解釈する。
+// appPort の "8000:8010" (ホストのポート:コンテナのポート) も、この形式に一致するため、Host="8000"、Port=8010 となる。
+// appPort として扱うときは、Spec を、Docker のポート指定として解釈する。
 type PortMapping struct {
 	Port int    // 整数のポート番号、または "host:port" 形式のポート番号
 	Host string // "host:port" 形式のホスト部分
@@ -135,9 +135,9 @@ func (l *PortList) UnmarshalJSON(data []byte) error {
 
 // Mount は、mounts の 1 要素。オブジェクト形式、または Docker の --mount 形式の文字列。
 type Mount struct {
-	Type   string `json:"type,omitempty"`
-	Source string `json:"source,omitempty"`
-	Target string `json:"target,omitempty"`
+	Type   string `json:"type,omitzero"`
+	Source string `json:"source,omitzero"`
+	Target string `json:"target,omitzero"`
 	// Raw は、文字列形式の原文 (オブジェクト形式では空)。
 	Raw string `json:"-"`
 }
@@ -199,8 +199,8 @@ type GPURequirement struct {
 }
 
 type gpuDetail struct {
-	Cores  int    `json:"cores,omitempty"`
-	Memory string `json:"memory,omitempty"`
+	Cores  int    `json:"cores,omitzero"`
+	Memory string `json:"memory,omitzero"`
 }
 
 // UnmarshalJSON は、true / false / "optional" / オブジェクトを読む。
@@ -273,7 +273,7 @@ func (c LifecycleCommand) IsZero() bool {
 	return c.Single == nil && len(c.Parallel) == 0
 }
 
-func parseCommand(raw json.RawMessage) (Command, error) {
+func parseCommand(raw []byte) (Command, error) {
 	raw = bytes.TrimSpace(raw)
 	if len(raw) == 0 {
 		return Command{}, errors.New("empty command")

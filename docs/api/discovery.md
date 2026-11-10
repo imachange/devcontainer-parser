@@ -12,6 +12,7 @@ Package discovery は、ディレクトリから devcontainer.json を、規定�
 
 - [Variables](<#variables>)
 - [func Candidates\(root string\) \(\[\]string, error\)](<#Candidates>)
+- [func CandidatesSeq\(root string\) iter.Seq2\[string, error\]](<#CandidatesSeq>)
 - [func Find\(root string\) \(string, error\)](<#Find>)
 
 
@@ -34,7 +35,7 @@ var Patterns = []string{
 ```
 
 <a name="Candidates"></a>
-## func [Candidates](<https://github.com/imachange/devcontainer-parser/blob/main/discovery/discovery.go#L28>)
+## func [Candidates](<https://github.com/imachange/devcontainer-parser/blob/main/discovery/discovery.go#L30>)
 
 ```go
 func Candidates(root string) ([]string, error)
@@ -48,8 +49,17 @@ Candidates は、root の下に存在する devcontainer.json を、優先順位
 
 見つからなければ、空の一覧を返す \(エラーにはしない\)。
 
+<a name="CandidatesSeq"></a>
+## func [CandidatesSeq](<https://github.com/imachange/devcontainer-parser/blob/main/discovery/discovery.go#L70>)
+
+```go
+func CandidatesSeq(root string) iter.Seq2[string, error]
+```
+
+CandidatesSeq は、Candidates と同様の探索を標準イテレータ \(iter.Seq2\) として返す。
+
 <a name="Find"></a>
-## func [Find](<https://github.com/imachange/devcontainer-parser/blob/main/discovery/discovery.go#L54>)
+## func [Find](<https://github.com/imachange/devcontainer-parser/blob/main/discovery/discovery.go#L87>)
 
 ```go
 func Find(root string) (string, error)

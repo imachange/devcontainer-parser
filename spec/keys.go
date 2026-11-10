@@ -1,6 +1,9 @@
 package spec
 
-import "sort"
+import (
+	"cmp"
+	"slices"
+)
 
 // TopLevelKeys は、スキーマが定義する、devcontainer.json のトップレベルのキーの一覧 (辞書順)。
 //
@@ -77,6 +80,6 @@ func SortedKeys[V any](m map[string]V) []string {
 	for k := range m {
 		keys = append(keys, k)
 	}
-	sort.Strings(keys)
+	slices.SortFunc(keys, cmp.Compare)
 	return keys
 }
